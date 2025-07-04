@@ -11,9 +11,9 @@ const routes = require('./src/routes');
 app.use('/data', routes);
 
 //APENAS PRA TESTE DE FUNCIONAMENTO DA API
-app.get('/', (req, res) => {
-    res.send('API funcionando');
-});
+//app.get('/', (req, res) => {
+//    res.send('API funcionando');
+//});
 
 
 app.listen(PORT, () => {
