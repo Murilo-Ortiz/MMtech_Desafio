@@ -1,5 +1,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import * as api from './services/api.js';
+import ContactForm from './components/contactForm.jsx'
+import ContactList from './components/contactList.jsx'
 import './App.css';
 
 const formatPhoneNumber = (value) => {
@@ -31,17 +33,17 @@ function App() {
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
-  const [newContact, setNewContact] = useState({ nome: '', email: '', telefone: '' });
   const [editingContact, setEditingContact] = useState(null);
+  const [formData, setFormData] = useState({nome:'', email:'', telefone:''});
 
   const fetchContacts = useCallback(async () => {
     setIsLoading(true);
     setError(null);
     try {
       const response = await api.getAllData(searchTerm);
-      setContacts(response.data);
+      setContacts(response.data.map(c=>({...c, telefone: formatPhoneNumber(c.telefone)})));
     } catch (err) {
-      setError('Falha ao carregar contatos. O backend está rodando?');
+      setError('Falha ao carregar contatos.');
       console.error(err);
     } finally {
       setIsLoading(false);
@@ -51,33 +53,6 @@ function App() {
   useEffect(() => {
     fetchContacts();
   }, [fetchContacts]);
-
-
-  const handlePhoneChange = (e, formType) => {
-    const formattedPhone = formatPhoneNumber(e.target.value);
-    if (formType === 'new') {
-      setNewContact({ ...newContact, telefone: formattedPhone });
-    } else if (formType === 'edit') {
-      setEditingContact({ ...editingContact, telefone: formattedPhone });
-    }
-  };
-
-  const handleCreateSubmit = async (e) => {
-    e.preventDefault();
-    if (!newContact.nome || !newContact.email || !newContact.telefone) {
-      alert('Por favor, preencha todos os campos.');
-      return;
-    }
-    try {
-      const contactToSend = { ...newContact, telefone: newContact.telefone.replace(/\D/g, '') };
-      await api.postNewContato(contactToSend);
-      setNewContact({ nome: '', email: '', telefone: '' });
-      fetchContacts();
-    } catch (err) {
-      setError('Erro ao criar contato.');
-      console.error(err);
-    }
-  };
 
   const handleDelete = async (id) => {
     if (window.confirm('Tem certeza que deseja deletar este contato?')) {
@@ -91,21 +66,34 @@ function App() {
     }
   };
 
-  const handleUpdateSubmit = async (e) => {
+  const handleEdit = (contact) =>{
+    setEditingContact(contact);
+    setFormData(contact);
+  };
+
+  const handleCancelEdit = () => {
+    setEditingContact(null);
+    setFormData({nome:'', email:'', telefone:''});
+  };
+
+  const handleFormSubmit = async(e) => {
     e.preventDefault();
-    try {
-      const contactToUpdate = {
-        nome: editingContact.nome,
-        email: editingContact.email,
-        telefone: editingContact.telefone.replace(/\D/g, ''),
-      };
-      await api.updateContato(editingContact._id, contactToUpdate);
-      setEditingContact(null);
-      fetchContacts();
-    } catch (err) {
-      setError('Erro ao atualizar contato.');
-      console.error(err);
+    const dataToSend = {...formData, telefone: formData.telefone.replace(/\D/g, '')};
+    if(editingContact){
+      await api.updateContato(editingContact._id, dataToSend);
+    }else{
+      await api.postNewContato(dataToSend);
     }
+
+    handleCancelEdit();
+    fetchContacts();
+  }
+
+  const handleFormChange = (newFormData) => {
+    if(newFormData.telefone !== formData.telefone){
+      newFormData.telefone = formatPhoneNumber(newFormData.telefone);
+    }
+    setFormData(newFormData);
   };
 
   return (
@@ -115,94 +103,23 @@ function App() {
       </header>
 
       <main>
-        <div className="form-section">
-          {editingContact ? (
-            <form onSubmit={handleUpdateSubmit}>
-              <h2>Editando Contato</h2>
-              <input
-                type="text"
-                placeholder="Nome"
-                value={editingContact.nome}
-                onChange={(e) => setEditingContact({ ...editingContact, nome: e.target.value })}
-              />
-              <input
-                type="email"
-                placeholder="Email"
-                value={editingContact.email}
-                onChange={(e) => setEditingContact({ ...editingContact, email: e.target.value })}
-              />
-              <input
-                type="tel"
-                placeholder="(XX) XXXXX-XXXX"
-                value={editingContact.telefone}
-                onChange={(e) => handlePhoneChange(e, 'edit')}
-                maxLength="15"
-              />
-              <button type="submit">Salvar Alterações</button>
-              <button type="button" onClick={() => setEditingContact(null)}>Cancelar</button>
-            </form>
-          ) : (
-            <form onSubmit={handleCreateSubmit}>
-              <h2>Adicionar Novo Contato</h2>
-              <input
-                type="text"
-                placeholder="Nome"
-                value={newContact.nome}
-                onChange={(e) => setNewContact({ ...newContact, nome: e.target.value })}
-              />
-              <input
-                type="email"
-                placeholder="Email"
-                value={newContact.email}
-                onChange={(e) => setNewContact({ ...newContact, email: e.target.value })}
-              />
-              <input
-                type="tel"
-                placeholder="(XX) XXXXX-XXXX"
-                value={newContact.telefone}
-                onChange={(e) => handlePhoneChange(e, 'new')}
-                maxLength="15"
-              />
-              <button type="submit">Adicionar Contato</button>
-            </form>
-          )}
-        </div>
+        <ContactForm
+          formData={formData}
+          isEditing={!!editingContact}
+          onFormChange={handleFormChange}
+          onSubmit={handleFormSubmit}
+          onCancelEdit={handleCancelEdit}
+        />
 
-        <div className="list-section">
-          <h2>Contatos</h2>
-          <input
-            type="search"
-            placeholder="Buscar por nome..."
-            className="search-input"
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-          />
-
-          {isLoading && <p>Carregando...</p>}
-          {error && <p className="error">{error}</p>}
-
-          {!isLoading && !error && (
-            <ul className="contact-list">
-              {contacts.length > 0 ? (
-                contacts.map(contact => (
-                  <li key={contact._id} className="contact-item">
-                    <div className="contact-info">
-                      <strong>{contact.nome}</strong>
-                      <span>{contact.email}</span>
-                      <span>{formatPhoneNumber(contact.telefone)}</span>
-                    </div>
-                    <div className="contact-actions">
-                      <button onClick={() => setEditingContact({ ...contact, telefone: formatPhoneNumber(contact.telefone) })}>Editar</button>
-                      <button className="delete-btn" onClick={() => handleDelete(contact._id)}>Deletar</button>
-                    </div>
-                  </li>
-                ))
-              ) : (
-                <p>Nenhum contato encontrado.</p>
-              )}
-            </ul>
-          )}
-        </div>
+        <ContactList
+          contacts={contacts}
+          isLoading={isLoading}
+          error = {error}
+          searchTerm = {searchTerm}
+          onSearchChange={(e) => setSearchTerm(e.target.value)}
+          onEditContact = {handleEdit}
+          onDeleteContact = {handleDelete}
+        />
       </main>
     </div>
   );
