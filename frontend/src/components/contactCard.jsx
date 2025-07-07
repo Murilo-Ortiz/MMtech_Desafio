@@ -4,7 +4,7 @@ function ContactCard({contato, onEdit, onDelete}){
     return(
         <li className='contact-item'>
             <div className='contact-info'>
-                <strong>{contato.name}</strong>
+                <strong>{contato.nome}</strong>
                 <strong>{contato.email}</strong>
                 <strong>{contato.telefone}</strong>
             </div>

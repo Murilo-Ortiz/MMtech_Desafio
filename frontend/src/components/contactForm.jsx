@@ -35,7 +35,7 @@ function ContactForm({
                     type='tel'
                     name='telefone'
                     placeholder='(XX) XXXXX-XXXX'
-                    value={formData.email}
+                    value={formData.telefone}
                     onChange={handleChange}
                     maxLength='15'
                 />
