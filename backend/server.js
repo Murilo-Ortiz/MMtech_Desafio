@@ -4,8 +4,11 @@ const cors = require('cors');
 const app = express();
 const PORT = 3001;
 
+const authRoutes = require('./src/authRoutes');
+
 app.use(cors());
 app.use(express.json());
+app.use('/auth', authRoutes);
 
 const routes = require('./src/routes');
 app.use('/data', routes);

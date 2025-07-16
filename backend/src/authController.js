@@ -1,7 +1,7 @@
-const bycript = require('bycriptsjs');
+const bycript = require('bcryptjs');
 const nodemailer = require('nodemailer');
 const crypto = require('crypto');
-const {userDb}=require('../../config/database');
+const {usersDb}=require('../config/database');
 
 exports.register = async (req, res)=> {
     try{
@@ -11,13 +11,13 @@ exports.register = async (req, res)=> {
             return res.status(400).json({message: 'Todos os campos são obrigatórios'});
         }
 
-        const existingUser = await userDb.findOne({email});
+        const existingUser = await usersDb.findOne({email});
+
         if(existingUser){
-            return res.status.(409).json({message:'Este email já está em uso'});
+            return res.status(409).json({message:'Este email já está em uso'});
         }
 
-        const salt = await bycript.getSalt(10);
-        const hashedPassword = await bycript.hash(password, salt);
+        const hashedPassword = await bycript.hash(password, 10);
 
         const verificationToken = crypto.randomBytes(32).toString('hex');
 
@@ -28,11 +28,11 @@ exports.register = async (req, res)=> {
             isVerified: false,
             verificationToken,
         };
-        await userDb.insert(newUser);
+        await usersDb.insert(newUser);
 
         let testAccount = await nodemailer.createTestAccount();
         let transporter = nodemailer.createTransport({
-            host: 'smtp.ethreal.email',
+            host: 'smtp.ethereal.email',
             port: 587,
             secure: false,
             auth:{
