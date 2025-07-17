@@ -34,8 +34,18 @@ exports.createContato = async (req, res) => {
     try {
         const { error, value } = contactSchema.validate(req.body, { abortEarly: false });
         if (error) {
-            const errorMessages = error.details.map(detail => detail.message).join(', ');
-            return res.status(400).json({ message: errorMessages });
+            const formattedErrors = {};
+            error.details.forEach(detail => {
+                const fieldName = detail.path[0];
+                if (!formattedErrors[fieldName]) {
+                    formattedErrors[fieldName] = [];
+                }
+                formattedErrors[fieldName].push(detail.message);
+            });
+            return res.status(400).json({
+                message: 'Erro de validação nos campos fornecidos.',
+                errors: formattedErrors
+            });
         }
 
         const newData = {
@@ -67,8 +77,18 @@ exports.updateContato = async (req, res) => {
     try {
         const { error, value } = contactSchema.validate(req.body, { abortEarly: false });
         if (error) {
-            const errorMessages = error.details.map(detail => detail.message).join(', ');
-            return res.status(400).json({ message: errorMessages });
+            const formattedErrors = {};
+            error.details.forEach(detail => {
+                const fieldName = detail.path[0];
+                if (!formattedErrors[fieldName]) {
+                    formattedErrors[fieldName] = [];
+                }
+                formattedErrors[fieldName].push(detail.message);
+            });
+            return res.status(400).json({
+                message: 'Erro de validação nos campos fornecidos.',
+                errors: formattedErrors
+            });
         }
 
         const idD = req.params.id;

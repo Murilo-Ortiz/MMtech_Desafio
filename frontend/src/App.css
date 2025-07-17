@@ -117,8 +117,16 @@ form button[type="button"]:hover {
   display: flex;
   flex-direction: column;
   gap: 4px;
-  word-break: break-word;
+  flex-shrink: 1;
+  min-width: 0;
 }
+
+.contact-info .email-display span {
+  word-break: break-word;
+  overflow-wrap: break-word;
+  display: inline;
+}
+
 
 .contact-info strong {
   font-size: 1.1rem;
@@ -132,6 +140,7 @@ form button[type="button"]:hover {
 
 .contact-actions {
   display: flex;
+  flex-direction: column;
   gap: 8px;
   width: 100%;
 }
@@ -178,11 +187,15 @@ form button[type="button"]:hover {
   .contact-item {
     flex-direction: row;
     justify-content: space-between;
-    align-items: center;
+    align-items: flex-start;
+    gap: 16px;
   }
 
   .contact-actions {
+    flex-direction: row;
     width: auto;
+    flex-shrink: 0;
+    align-items: flex-start;
   }
 
   .contact-actions button {

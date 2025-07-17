@@ -4,10 +4,10 @@ import { useAuth } from '../context/AuthContext';
 import ContactList from '../components/contactList.jsx';
 import ContactForm from '../components/contactForm.jsx';
 import ConfirmationModal from '../components/confirmationModel.jsx';
-import ContactDetailModal from '../components/ContactDetailModal.jsx';
 import { toast } from 'react-toastify';
+import ContactDetailModal from '../components/ContactDetailModal.jsx';
 
-const formatPhoneNumber = (value) => {
+export const formatPhoneNumber = (value) => {
   if (!value) return '';
   const cleaned = ('' + value).replace(/\D/g, '');
   const truncated = cleaned.slice(0, 11);
@@ -30,9 +30,9 @@ function ContactsPage() {
   const [formData, setFormData] = useState(initialFormState);
   const [contactToDelete, setContactToDelete] = useState(null);
   const [validationErrors, setValidationErrors] = useState({});
-  const [contactToViewDetails, setContactToViewDetails] = useState(null);
   const [isFormOpen, setIsFormOpen] = useState(true);
 
+  const [contactToViewDetails, setContactToViewDetails] = useState(null);
 
   const fetchContacts = useCallback(async () => {
     setIsLoading(true);
@@ -81,19 +81,19 @@ function ContactsPage() {
       emails: Array.isArray(contact.emails) ? contact.emails : [contact.emails],
       telefones: Array.isArray(contact.telefones) ? contact.telefones : [contact.telefones],
     });
-    setIsFormOpen(true); 
+    setIsFormOpen(true);
   };
 
   const handleCancelEdit = () => {
     setEditingContact(null);
     setFormData(initialFormState);
-    setIsFormOpen(false); 
+    setIsFormOpen(false);
     setValidationErrors({});
   };
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
-    setValidationErrors({}); 
+    setValidationErrors({});
 
     const dataToSend = {
       nome: formData.nome,
@@ -109,13 +109,15 @@ function ContactsPage() {
         await api.createContact(dataToSend);
         toast.success(`Contato ${formData.nome} adicionado!`);
       }
-      handleCancelEdit(); 
+      handleCancelEdit();
       fetchContacts();
     } catch (error) {
       if (error.response && error.response.status === 400 && error.response.data.errors) {
           setValidationErrors(error.response.data.errors);
-          toast.error(error.response.data.message || 'Verifique os campos do formulário.');
-          setIsFormOpen(true); 
+          Object.values(error.response.data.errors).flat().forEach(msg => {
+            toast.error(msg);
+          });
+          setIsFormOpen(true);
       } else {
           const errorMessage = error.response?.data?.message || 'Falha ao guardar o contato.';
           toast.error(errorMessage);
@@ -172,7 +174,7 @@ function ContactsPage() {
               onRemoveField={handleRemoveField}
               onFieldChange={handleFieldChange}
               validationErrors={validationErrors}
-              onCloseForm={() => setIsFormOpen(false)} 
+              onCloseForm={() => setIsFormOpen(false)}
             />
           )}
           <ContactList

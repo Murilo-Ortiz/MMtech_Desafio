@@ -1,10 +1,11 @@
 import React from 'react';
+import { formatPhoneNumber } from '../pages/ContactPage.jsx';
 
 function ContactCard({ contact, onEdit, onDelete, onShowDetails, loggedInUserId }) {
   const isOwner = loggedInUserId === contact.userId;
 
   const firstEmail = contact.emails && contact.emails.length > 0 ? contact.emails[0] : 'N/A';
-  const firstTelefone = contact.telefones && contact.telefones.length > 0 ? contact.telefones[0] : 'N/A';
+  const firstTelefone = contact.telefones && contact.telefones.length > 0 ? formatPhoneNumber(contact.telefones[0]) : 'N/A';
 
   const hasMoreEmails = contact.emails && contact.emails.length > 1;
   const hasMoreTelefones = contact.telefones && contact.telefones.length > 1;
@@ -13,7 +14,7 @@ function ContactCard({ contact, onEdit, onDelete, onShowDetails, loggedInUserId 
     <li className="contact-item">
       <div className="contact-info">
         <strong>{contact.nome}</strong>
-        <div className="contact-details">
+        <div className="contact-details email-display">
           <span>{firstEmail} {hasMoreEmails && `(+${contact.emails.length - 1})`}</span>
         </div>
         <div className="contact-details">
