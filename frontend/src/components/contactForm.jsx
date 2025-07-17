@@ -7,14 +7,19 @@ function ContactForm({
   onCancelEdit,
   onAddField,
   onRemoveField,
-  onFieldChange
+  onFieldChange,
+  validationErrors,
+  onCloseForm 
 }) {
 
   return (
     <div className="form-section">
       <form onSubmit={onSubmit} noValidate>
-        <h2>{isEditing ? 'Editando Contato' : 'Adicionar Novo Contato'}</h2>
-        
+        <div className="form-header"> 
+            <h2>{isEditing ? 'Editando Contato' : 'Adicionar Novo Contato'}</h2>
+            <button type="button" className="close-form-btn" onClick={onCloseForm}>&times;</button>
+        </div>
+
         <input
           type="text"
           name="nome"
@@ -23,6 +28,9 @@ function ContactForm({
           onChange={(e) => onFieldChange('nome', null, e.target.value)}
           required
         />
+        {validationErrors.nome && (
+            <p className="validation-error">{validationErrors.nome.join(', ')}</p>
+        )}
 
         <div className="dynamic-field-group">
           <label>E-mails</label>
@@ -41,6 +49,9 @@ function ContactForm({
             </div>
           ))}
           <button type="button" className="add-btn" onClick={() => onAddField('emails')}>+ Adicionar E-mail</button>
+          {validationErrors.emails && (
+              <p className="validation-error">{validationErrors.emails.join(', ')}</p>
+          )}
         </div>
 
         <div className="dynamic-field-group">
@@ -61,6 +72,9 @@ function ContactForm({
             </div>
           ))}
           <button type="button" className="add-btn" onClick={() => onAddField('telefones')}>+ Adicionar Telefone</button>
+          {validationErrors.telefones && (
+              <p className="validation-error">{validationErrors.telefones.join(', ')}</p>
+          )}
         </div>
 
         <button type="submit">{isEditing ? 'Salvar Alterações' : 'Adicionar Contato'}</button>

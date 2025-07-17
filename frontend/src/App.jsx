@@ -24,10 +24,8 @@ function App() {
       {isAuthenticated && (
         <header className="fixed-header">
           <h1>Agenda de Contatos MMTech</h1>
-          <div className="header-user-info">
-            <span>Olá, {user?.nome || 'Utilizador'}!</span>
-            <button onClick={logout} className="logout-btn">Logout</button>
-          </div>
+          <span>Olá, {user?.nome || 'Utilizador'}!</span>
+          <button onClick={logout} className="logout-btn">Logout</button>
         </header>
       )} 
 

@@ -27,8 +27,11 @@ function ContactsPage() {
   const [searchTerm, setSearchTerm] = useState('');
   const [editingContact, setEditingContact] = useState(null);
   const [formData, setFormData] = useState(initialFormState);
-  
   const [contactToDelete, setContactToDelete] = useState(null);
+  const [validationErrors, setValidationErrors] = useState({});
+
+  const [isFormOpen, setIsFormOpen] = useState(false);
+
 
   const fetchContacts = useCallback(async () => {
     setIsLoading(true);
@@ -77,18 +80,23 @@ function ContactsPage() {
       emails: Array.isArray(contact.emails) ? contact.emails : [contact.emails],
       telefones: Array.isArray(contact.telefones) ? contact.telefones : [contact.telefones],
     });
+    setIsFormOpen(true); 
   };
 
   const handleCancelEdit = () => {
     setEditingContact(null);
-    setFormData({ nome: '', email: '', telefone: '' });
+    setFormData(initialFormState);
+    setIsFormOpen(false); 
+    setValidationErrors({});
   };
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
+    setValidationErrors({}); 
+
     const dataToSend = {
       nome: formData.nome,
-      emails: (formData.emails || []).filter(e => e), 
+      emails: (formData.emails || []).filter(e => e),
       telefones: (formData.telefones || []).map(t => t.replace(/\D/g, '')).filter(t => t),
     };
 
@@ -100,11 +108,18 @@ function ContactsPage() {
         await api.createContact(dataToSend);
         toast.success(`Contato ${formData.nome} adicionado!`);
       }
-      handleCancelEdit();
+      handleCancelEdit(); 
       fetchContacts();
     } catch (error) {
-      const errorMessage = error.response?.data?.message || 'Falha ao guardar o contato.';
-      toast.error(errorMessage);
+      if (error.response && error.response.status === 400 && error.response.data.errors) {
+          setValidationErrors(error.response.data.errors);
+          toast.error(error.response.data.message || 'Verifique os campos do formulário.');
+          setIsFormOpen(true); 
+      } else {
+          const errorMessage = error.response?.data?.message || 'Falha ao guardar o contato.';
+          toast.error(errorMessage);
+          console.error(error);
+      }
     }
   };
 
@@ -126,27 +141,35 @@ function ContactsPage() {
       if (index === null) {
         return { ...prev, [field]: value };
       }
-      
       const updatedArray = [...(prev[field] || [])];
       updatedArray[index] = field === 'telefones' ? formatPhoneNumber(value) : value;
       return { ...prev, [field]: updatedArray };
     });
   };
 
-
   return (
     <>
       <div className="container">
         <main>
-          <ContactForm
-            formData={formData}
-            isEditing={!!editingContact}
-            onSubmit={handleFormSubmit}
-            onCancelEdit={handleCancelEdit}
-            onAddField={handleAddField}
-            onRemoveField={handleRemoveField}
-            onFieldChange={handleFieldChange}
-          />
+          {!isFormOpen && (
+            <button onClick={() => setIsFormOpen(true)} className="add-new-contact-btn">
+              + Adicionar Novo Contato
+            </button>
+          )}
+
+          {isFormOpen && (
+            <ContactForm
+              formData={formData}
+              isEditing={!!editingContact}
+              onSubmit={handleFormSubmit}
+              onCancelEdit={handleCancelEdit}
+              onAddField={handleAddField}
+              onRemoveField={handleRemoveField}
+              onFieldChange={handleFieldChange}
+              validationErrors={validationErrors}
+              onCloseForm={() => setIsFormOpen(false)} 
+            />
+          )}
           <ContactList
             contacts={contacts}
             isLoading={isLoading}
@@ -154,7 +177,7 @@ function ContactsPage() {
             searchTerm={searchTerm}
             onSearchChange={(e) => setSearchTerm(e.target.value)}
             onEditContact={handleEdit}
-            onDeleteContact={handleDeleteRequest} 
+            onDeleteContact={handleDeleteRequest}
             loggedInUserId={user?.id}
           />
         </main>
