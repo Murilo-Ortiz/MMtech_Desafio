@@ -1,51 +1,75 @@
 import React from 'react';
 
 function ContactForm({
-    formData,
-    isEditing,
-    onFormChange,
-    onSubmit,
-    onCancelEdit
-}){
-    const handleChange =(e) =>{
-        const {name, value} = e.target;
-        onFormChange({...formData, [name]:value});
-    };
+  formData,
+  isEditing,
+  onSubmit,
+  onCancelEdit,
+  onAddField,
+  onRemoveField,
+  onFieldChange
+}) {
 
-    return(
-        <div className='form-section'>
-            <form onSubmit={onSubmit}>
-                <h2>{isEditing ? 'Editando Contato': 'Adicionar Novo Contato'}</h2>
-                <input
-                    type='text'
-                    name='nome'
-                    placeholder='Nome'
-                    value={formData.nome}
-                    onChange={handleChange}
-                />
-                <input
-                    type='email'
-                    name='email'
-                    placeholder='Email'
-                    value={formData.email}
-                    onChange={handleChange}
+  return (
+    <div className="form-section">
+      <form onSubmit={onSubmit}>
+        <h2>{isEditing ? 'Editando Contato' : 'Adicionar Novo Contato'}</h2>
+        
+        <input
+          type="text"
+          name="nome"
+          placeholder="Nome Completo"
+          value={formData.nome || ''}
+          onChange={(e) => onFieldChange('nome', null, e.target.value)}
+          required
+        />
 
-                />
-                <input
-                    type='tel'
-                    name='telefone'
-                    placeholder='(XX) XXXXX-XXXX'
-                    value={formData.telefone}
-                    onChange={handleChange}
-                    maxLength='15'
-                />
-                <button type='submit'>{isEditing ? 'Salvar Alterações' : 'Adicionar Contato'}</button>
-                {isEditing && (
-                    <button type='button' onClick={onCancelEdit}> Cancelar </button>
-                )}
-            </form>
+        <div className="dynamic-field-group">
+          <label>E-mails</label>
+          {(formData.emails || []).map((email, index) => (
+            <div key={index} className="dynamic-field">
+              <input
+                type="email"
+                placeholder="exemplo@email.com"
+                value={email}
+                onChange={(e) => onFieldChange('emails', index, e.target.value)}
+                required
+              />
+              {formData.emails.length > 1 && (
+                <button type="button" className="remove-btn" onClick={() => onRemoveField('emails', index)}>&ndash;</button>
+              )}
+            </div>
+          ))}
+          <button type="button" className="add-btn" onClick={() => onAddField('emails')}>+ Adicionar E-mail</button>
         </div>
-    );
+
+        <div className="dynamic-field-group">
+          <label>Telefones</label>
+          {(formData.telefones || []).map((telefone, index) => (
+            <div key={index} className="dynamic-field">
+              <input
+                type="tel"
+                placeholder="(XX) XXXXX-XXXX"
+                value={telefone}
+                onChange={(e) => onFieldChange('telefones', index, e.target.value)}
+                maxLength="15"
+                required
+              />
+              {formData.telefones.length > 1 && (
+                <button type="button" className="remove-btn" onClick={() => onRemoveField('telefones', index)}>&ndash;</button>
+              )}
+            </div>
+          ))}
+          <button type="button" className="add-btn" onClick={() => onAddField('telefones')}>+ Adicionar Telefone</button>
+        </div>
+
+        <button type="submit">{isEditing ? 'Salvar Alterações' : 'Adicionar Contato'}</button>
+        {isEditing && (
+          <button type="button" onClick={onCancelEdit}>Cancelar</button>
+        )}
+      </form>
+    </div>
+  );
 }
 
 export default ContactForm;

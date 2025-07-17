@@ -7,8 +7,12 @@ function ContactCard({ contact, onEdit, onDelete, loggedInUserId }) {
     <li className="contact-item">
       <div className="contact-info">
         <strong>{contact.nome}</strong>
-        <span>{contact.email}</span>
-        <span>{contact.telefone}</span>
+        <div className="contact-details">
+          {contact.emails.map((email, index) => <span key={index}>{email}</span>)}
+        </div>
+        <div className="contact-details">
+          {contact.telefones.map((telefone, index) => <span key={index}>{telefone}</span>)}
+        </div>
       </div>
       
       {isOwner && (

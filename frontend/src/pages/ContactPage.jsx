@@ -17,6 +17,8 @@ const formatPhoneNumber = (value) => {
   return truncated;
 };
 
+const initialFormState = { nome: '', emails: [''], telefones: [''] };
+
 function ContactsPage() {
   const { user, logout } = useAuth();
   const [contacts, setContacts] = useState([]);
@@ -24,7 +26,7 @@ function ContactsPage() {
   const [error, setError] = useState(null);
   const [searchTerm, setSearchTerm] = useState('');
   const [editingContact, setEditingContact] = useState(null);
-  const [formData, setFormData] = useState({ nome: '', email: '', telefone: '' });
+  const [formData, setFormData] = useState(initialFormState);
   
   const [contactToDelete, setContactToDelete] = useState(null);
 
@@ -70,7 +72,11 @@ function ContactsPage() {
 
   const handleEdit = (contact) => {
     setEditingContact(contact);
-    setFormData(contact);
+    setFormData({
+      ...contact,
+      emails: Array.isArray(contact.emails) ? contact.emails : [contact.emails],
+      telefones: Array.isArray(contact.telefones) ? contact.telefones : [contact.telefones],
+    });
   };
 
   const handleCancelEdit = () => {
@@ -80,7 +86,12 @@ function ContactsPage() {
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
-    const dataToSend = { ...formData, telefone: formData.telefone.replace(/\D/g, '') };
+    const dataToSend = {
+      nome: formData.nome,
+      emails: formData.emails.filter(e => e), 
+      telefones: formData.telefones.map(t => t.replace(/\D/g, '')).filter(t => t),
+    };
+
     try {
       if (editingContact) {
         await api.updateContact(editingContact._id, dataToSend);
@@ -92,16 +103,34 @@ function ContactsPage() {
       handleCancelEdit();
       fetchContacts();
     } catch (error) {
+      const errorMessage = error.response?.data?.message || 'Falha ao guardar o contato.';
       toast.error('Falha ao guardar o contato.');
     }
   };
 
-  const handleFormChange = (newFormData) => {
-    if (newFormData.telefone !== formData.telefone) {
-      newFormData.telefone = formatPhoneNumber(newFormData.telefone);
-    }
-    setFormData(newFormData);
+  const handleAddField = (field) => {
+    setFormData(prev => ({ ...prev, [field]: [...prev[field], ''] }));
   };
+
+  const handleRemoveField = (field, index) => {
+    setFormData(prev => ({
+      ...prev,
+      [field]: prev[field].filter((_, i) => i !== index),
+    }));
+  };
+
+  const handleFieldChange = (field, index, value) => {
+    setFormData(prev => {
+      if (index === null) {
+        return { ...prev, [field]: value };
+      }
+      
+      const updatedArray = [...prev[field]];
+      updatedArray[index] = field === 'telefones' ? formatPhoneNumber(value) : value;
+      return { ...prev, [field]: updatedArray };
+    });
+  };
+
 
   return (
     <>
@@ -117,9 +146,11 @@ function ContactsPage() {
           <ContactForm
             formData={formData}
             isEditing={!!editingContact}
-            onFormChange={handleFormChange}
             onSubmit={handleFormSubmit}
             onCancelEdit={handleCancelEdit}
+            onAddField={handleAddField}
+            onRemoveField={handleRemoveField}
+            onFieldChange={handleFieldChange}
           />
           <ContactList
             contacts={contacts}

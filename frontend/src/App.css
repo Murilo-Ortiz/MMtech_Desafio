@@ -375,3 +375,56 @@ form button[type="button"]:hover {
 .modal-footer .btn-danger:hover {
   box-shadow: 0 4px 15px rgba(239, 68, 68, 0.4);
 }
+
+.dynamic-field-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+.dynamic-field-group label {
+  font-weight: bold;
+  color: var(--mm-text-secondary);
+  font-size: 0.9rem;
+  margin-bottom: 0.25rem;
+}
+.dynamic-field {
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+}
+.dynamic-field input {
+  flex-grow: 1;
+}
+.add-btn, .remove-btn {
+  padding: 8px 12px;
+  font-size: 0.9rem;
+  text-transform: none;
+  font-weight: normal;
+}
+.add-btn {
+  background: var(--mm-light-bg);
+  border: 1px dashed var(--mm-border);
+  align-self: flex-start;
+}
+.add-btn:hover {
+  background: var(--mm-border);
+  transform: none;
+  box-shadow: none;
+}
+.remove-btn {
+  background-color: #4b5563;
+  padding: 0;
+  width: 30px;
+  height: 30px;
+  font-size: 1.5rem;
+  line-height: 1;
+}
+.remove-btn:hover {
+  background-color: var(--mm-pink);
+}
+.contact-details {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+  margin-top: 5px;
+}
