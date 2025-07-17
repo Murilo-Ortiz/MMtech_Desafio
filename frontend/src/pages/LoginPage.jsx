@@ -12,7 +12,8 @@ function LoginPage({ onSwitchToRegister }) {
     try {
       await login(email, password);
     } catch (err) {
-      toast.error('Falha no login. Verifique as suas credenciais.');
+      const errorMessage = err.response?.data?.message || 'Falha no login. Verifique as suas credenciais.';
+      toast.error(errorMessage);
       console.error(err);
     }
   };
