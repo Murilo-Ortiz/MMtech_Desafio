@@ -15,10 +15,10 @@ function ContactCard({ contact, onEdit, onDelete, onShowDetails, loggedInUserId 
       <div className="contact-info">
         <strong id={`contact-name-${contact._id}`}>{contact.nome}</strong>
         <div className="contact-details email-display">
-          <span>{firstEmail} {hasMoreEmails && `(+${contact.emails.length - 1} mais)`}</span>
+          <span>{firstEmail} {hasMoreEmails && `(+${contact.emails.length - 1})`}</span>
         </div>
         <div className="contact-details">
-          <span>{firstTelefone} {hasMoreTelefones && `(+${contact.telefones.length - 1} mais)`}</span>
+          <span>{firstTelefone} {hasMoreTelefones && `(+${contact.telefones.length - 1})`}</span>
         </div>
       </div>
       
