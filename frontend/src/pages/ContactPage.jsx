@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import * as api from '../services/api';
 import { useAuth } from '../context/AuthContext';
-import ContactList from '../components/ContactList.jsx';
-import ContactForm from '../components/ContactForm.jsx';
+import ContactList from '../components/contactList.jsx';
+import ContactForm from '../components/contactForm.jsx';
+import ConfirmationModal from '../components/confirmationModel.jsx';
 import { toast } from 'react-toastify';
 
 const formatPhoneNumber = (value) => {
@@ -24,6 +25,8 @@ function ContactsPage() {
   const [searchTerm, setSearchTerm] = useState('');
   const [editingContact, setEditingContact] = useState(null);
   const [formData, setFormData] = useState({ nome: '', email: '', telefone: '' });
+  
+  const [contactToDelete, setContactToDelete] = useState(null);
 
   const fetchContacts = useCallback(async () => {
     setIsLoading(true);
@@ -36,7 +39,7 @@ function ContactsPage() {
         setContacts([]);
       }
     } catch (err) {
-      setError('Falha ao carregar contatos.');
+      setError('Falha ao carregar contatos. A sua sessão pode ter expirado.');
       toast.error('A sua sessão pode ter expirado. Faça login novamente.');
       logout();
     } finally {
@@ -48,15 +51,20 @@ function ContactsPage() {
     fetchContacts();
   }, [fetchContacts]);
 
-  const handleDelete = async (id) => {
-    if (window.confirm('Tem a certeza de que deseja eliminar este contato?')) {
-      try {
-        await api.deleteContact(id);
-        toast.success('Contato eliminado com sucesso!');
-        fetchContacts();
-      } catch (error) {
-        toast.error('Erro ao eliminar o contato.');
-      }
+  const handleDeleteRequest = (contact) => {
+    setContactToDelete(contact);
+  };
+
+  const handleConfirmDelete = async () => {
+    if (!contactToDelete) return;
+    try {
+      await api.deleteContact(contactToDelete._id);
+      toast.success('Contato eliminado com sucesso!');
+      fetchContacts();
+    } catch (error) {
+      toast.error('Erro ao eliminar o contato.');
+    } finally {
+      setContactToDelete(null);
     }
   };
 
@@ -96,34 +104,46 @@ function ContactsPage() {
   };
 
   return (
-    <div className="container">
-      <header className="page-header">
-        <h1>Agenda de Contatos MMTech</h1>
-        <div className="header-user-info">
-          <span>Olá, {user?.nome || 'Utilizador'}!</span>
-          <button onClick={logout} className="logout-btn">Logout</button>
-        </div>
-      </header>
-      <main>
-        <ContactForm
-          formData={formData}
-          isEditing={!!editingContact}
-          onFormChange={handleFormChange}
-          onSubmit={handleFormSubmit}
-          onCancelEdit={handleCancelEdit}
-        />
-        <ContactList
-          contacts={contacts}
-          isLoading={isLoading}
-          error={error}
-          searchTerm={searchTerm}
-          onSearchChange={(e) => setSearchTerm(e.target.value)}
-          onEditContact={handleEdit}
-          onDeleteContact={handleDelete}
-          loggedInUserId={user?.id} 
-        />
-      </main>
-    </div>
+    <>
+      <div className="container">
+        <header className="page-header">
+          <h1>Agenda de Contatos MMTech</h1>
+          <div className="header-user-info">
+            <span>Olá, {user?.nome || 'Utilizador'}!</span>
+            <button onClick={logout} className="logout-btn">Logout</button>
+          </div>
+        </header>
+        <main>
+          <ContactForm
+            formData={formData}
+            isEditing={!!editingContact}
+            onFormChange={handleFormChange}
+            onSubmit={handleFormSubmit}
+            onCancelEdit={handleCancelEdit}
+          />
+          <ContactList
+            contacts={contacts}
+            isLoading={isLoading}
+            error={error}
+            searchTerm={searchTerm}
+            onSearchChange={(e) => setSearchTerm(e.target.value)}
+            onEditContact={handleEdit}
+            onDeleteContact={handleDeleteRequest} 
+            loggedInUserId={user?.id}
+          />
+        </main>
+      </div>
+
+      <ConfirmationModal
+        isOpen={!!contactToDelete}
+        onClose={() => setContactToDelete(null)}
+        onConfirm={handleConfirmDelete}
+        title="Confirmar Eliminação"
+      >
+        <p>Tem a certeza de que deseja eliminar o contato de <strong>{contactToDelete?.nome}</strong>?</p>
+        <p>Esta ação não pode ser desfeita.</p>
+      </ConfirmationModal>
+    </>
   );
 }
 

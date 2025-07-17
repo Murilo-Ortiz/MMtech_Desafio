@@ -8,7 +8,7 @@ function ContactList({
     searchTerm,
     onSearchChange, 
     onEditContact,
-    onDeleteContact
+    onDeleteContact,
     loggedInUserId 
 }){
     return(
@@ -31,7 +31,7 @@ function ContactList({
                         contacts.map(contact=>(
                             <ContactCard
                                 key={contact._id}
-                                contato={contact}
+                                contact={contact}
                                 onEdit={onEditContact}
                                 onDelete={onDeleteContact}
                                 loggedInUserId={loggedInUserId}
