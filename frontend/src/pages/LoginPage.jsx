@@ -39,7 +39,7 @@ function LoginPage({ onSwitchToRegister }) {
         <p className="switch-form">
           Não tem uma conta?{' '}
           <button type="button" onClick={onSwitchToRegister} className="link-button">
-            Registe-se
+            Registre-se
           </button>
         </p>
       </form>

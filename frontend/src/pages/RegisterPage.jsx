@@ -43,7 +43,7 @@ function RegisterPage({ onSwitchToLogin }) {
           onChange={(e) => setPassword(e.target.value)}
           required
         />
-        <button type="submit">Registar</button>
+        <button type="submit">Registrar</button>
         <p className="switch-form">
           Já tem uma conta?{' '}
           <button type="button" onClick={onSwitchToLogin} className="link-button">
