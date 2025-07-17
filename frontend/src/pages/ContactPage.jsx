@@ -120,6 +120,7 @@ function ContactsPage() {
           onSearchChange={(e) => setSearchTerm(e.target.value)}
           onEditContact={handleEdit}
           onDeleteContact={handleDelete}
+          loggedInUserId={user?.id} 
         />
       </main>
     </div>
