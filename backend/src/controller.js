@@ -1,14 +1,28 @@
 const { contactsDb } = require('../config/database');
+const Joi = require('joi');
+
+const contactSchema = Joi.object({
+  nome: Joi.string().min(3).required().messages({
+    'string.empty': 'O campo "nome" é obrigatório.',
+    'string.min': 'O nome precisa de ter no mínimo 3 caracteres.',
+  }),
+  emails: Joi.array().items(Joi.string().email()).min(1).required().messages({
+    'array.min': 'É necessário pelo menos um e-mail.',
+    'string.email': 'Um dos e-mails fornecidos não é válido.',
+  }),
+  telefones: Joi.array().items(Joi.string().pattern(/^\d{10,11}$/)).min(1).required().messages({
+    'array.min': 'É necessário pelo menos um telefone.',
+    'string.pattern.base': 'Um dos telefones fornecidos não é válido (deve conter 10 ou 11 dígitos).',
+  }),
+});
 
 exports.getAllData = async (req, res) => {
     try {
         const { search } = req.query;
         let query = {};
-
         if (search) {
             query.nome = new RegExp(search, 'i');
         }
-
         const data = await contactsDb.find(query).sort({ nome: 1 });
         res.json(data);
     } catch (error) {
@@ -18,15 +32,14 @@ exports.getAllData = async (req, res) => {
 
 exports.createContato = async (req, res) => {
     try {
-        const { nome, email, telefone } = req.body;
-        if (!nome || !email || !telefone) {
-            return res.status(400).json({ error: 'Todos os campos são obrigatórios' });
+        const { error, value } = contactSchema.validate(req.body, { abortEarly: false });
+        if (error) {
+            const errorMessages = error.details.map(detail => detail.message).join(', ');
+            return res.status(400).json({ message: errorMessages });
         }
 
         const newData = {
-            nome,
-            email,
-            telefone,
+            ...value,
             userId: req.user.id
         };
 
@@ -52,15 +65,16 @@ exports.deleteContato = async (req, res) => {
 
 exports.updateContato = async (req, res) => {
     try {
-        const idD = req.params.id;
-        const { nome, email, telefone } = req.body;
-        if (!nome || !email || !telefone) {
-            return res.status(400).json({ error: 'Os campos nome, email e telefone são obrigatórios.' });
+        const { error, value } = contactSchema.validate(req.body, { abortEarly: false });
+        if (error) {
+            const errorMessages = error.details.map(detail => detail.message).join(', ');
+            return res.status(400).json({ message: errorMessages });
         }
-        const updatedData = { nome, email, telefone };
-        const numReplaced = await contactsDb.update({ _id: idD, userId: req.user.id }, { $set: updatedData }, {});
+
+        const idD = req.params.id;
+        const numReplaced = await contactsDb.update({ _id: idD, userId: req.user.id }, { $set: value }, {});
         if (numReplaced === 0) {
-            return res.status(404).json({ error: 'Contato não encontrado ou você não tem permissão para o atualizar.' });
+            return res.status(404).json({ message: 'Contato não encontrado ou você não tem permissão para o atualizar.' });
         }
         const updatedContact = await contactsDb.findOne({ _id: idD });
         res.status(200).json(updatedContact);
