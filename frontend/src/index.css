@@ -13,6 +13,10 @@
   --mm-border: #374151;      
 }
 
+html, body {
+  overflow-x: hidden; /* Isso impede a rolagem horizontal indesejada */
+}
+
 body {
   margin: 0;
   font-family: 'Montserrat', sans-serif; 

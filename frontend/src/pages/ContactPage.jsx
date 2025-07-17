@@ -104,7 +104,7 @@ function ContactsPage() {
       fetchContacts();
     } catch (error) {
       const errorMessage = error.response?.data?.message || 'Falha ao guardar o contato.';
-      toast.error('Falha ao guardar o contato.');
+      toast.error(errorMessage);
     }
   };
 
@@ -137,13 +137,6 @@ function ContactsPage() {
   return (
     <>
       <div className="container">
-        <header className="page-header">
-          <h1>Agenda de Contatos MMTech</h1>
-          <div className="header-user-info">
-            <span>Olá, {user?.nome || 'Utilizador'}!</span>
-            <button onClick={logout} className="logout-btn">Logout</button>
-          </div>
-        </header>
         <main>
           <ContactForm
             formData={formData}

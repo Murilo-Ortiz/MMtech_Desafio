@@ -99,12 +99,12 @@ exports.login = async (req, res) => {
 
     const user = await usersDb.findOne({ email });
     if (!user) {
-      return res.status(401).json({ message: 'Credenciais inválidas.' });
+      return res.status(401).json({ message: 'Email incorreto' });
     }
 
     const isMatch = await bycript.compare(password, user.password);
     if (!isMatch) {
-      return res.status(401).json({ message: 'Credenciais inválidas.' }); 
+      return res.status(401).json({ message: 'Senha incorreta' }); 
     }
 
     if (!user.isVerified) {

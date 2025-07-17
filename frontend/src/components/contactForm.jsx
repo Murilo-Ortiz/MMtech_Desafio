@@ -12,7 +12,7 @@ function ContactForm({
 
   return (
     <div className="form-section">
-      <form onSubmit={onSubmit}>
+      <form onSubmit={onSubmit} noValidate>
         <h2>{isEditing ? 'Editando Contato' : 'Adicionar Novo Contato'}</h2>
         
         <input

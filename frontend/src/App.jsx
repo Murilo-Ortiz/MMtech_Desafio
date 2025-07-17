@@ -8,7 +8,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import './App.css';
 
 function App() {
-  const { isAuthenticated, isLoading } = useAuth();
+  const { isAuthenticated, isLoading, user, logout } = useAuth();
   const [showLogin, setShowLogin] = useState(true);
 
   if (isLoading) {
@@ -21,17 +21,29 @@ function App() {
 
   return (
     <>
-      {isAuthenticated ? (
-        <ContactsPage />
-      ) : (
-        <div className="auth-page-wrapper">
+      {isAuthenticated && (
+        <header className="fixed-header">
+          <h1>Agenda de Contatos MMTech</h1>
+          <div className="header-user-info">
+            <span>Olá, {user?.nome || 'Utilizador'}!</span>
+            <button onClick={logout} className="logout-btn">Logout</button>
+          </div>
+        </header>
+      )} 
+
+      {isAuthenticated? (
+        <div className="content-after-fixed-header">
+          <ContactsPage />
+        </div>):(
+                <div className="auth-page-wrapper">
           {showLogin ? (
             <LoginPage onSwitchToRegister={() => setShowLogin(false)} />
           ) : (
             <RegisterPage onSwitchToLogin={() => setShowLogin(true)} />
           )}
-        </div>
-      )}
+        </div>  
+        )}
+        
       <ToastContainer
         position="bottom-right"
         autoClose={5000}

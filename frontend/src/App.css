@@ -1,21 +1,17 @@
+*, *::before, *::after {
+  box-sizing: border-box;
+}
 
 .container {
   max-width: 1100px;
-  width: 95%;
-  margin: 2rem auto;
   background-color: var(--mm-light-bg);
-  padding: 2rem;
   border-radius: 12px;
   border: 1px solid var(--mm-border);
-}
-
-header h1 {
-  text-align: center;
-  color: var(--mm-text-primary);
-  font-weight: 900; 
-  text-transform: uppercase;
-  letter-spacing: 1.5px;
-  margin-bottom: 2.5rem;
+  padding-top: 2rem;
+  padding-bottom: 2rem;
+  padding-left: 1rem;  /* Margem interna esquerda de 1rem */
+  padding-right: 1rem;
+  margin: 2rem auto;
 }
 
 main {
@@ -157,6 +153,13 @@ form button[type="button"]:hover {
 }
 
 @media (min-width: 768px) {
+
+  .container{
+    padding-left: 2rem;
+    padding-right: 2rem;
+    width: auto;
+  }
+
   main {
     flex-direction: row;
     align-items: flex-start;
@@ -254,20 +257,6 @@ form button[type="button"]:hover {
   border-radius: 8px;
   text-align: center;
   font-weight: bold;
-}
-
-.page-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap; 
-  gap: 1rem;
-  margin-bottom: 2.5rem;
-}
-
-.page-header h1 {
-  margin-bottom: 0;
-  flex-grow: 1; 
 }
 
 .header-user-info {
@@ -442,3 +431,31 @@ form button[type="button"]:hover {
   0% { transform: rotate(0deg); }
   100% { transform: rotate(360deg); }
 }
+
+.fixed-header {
+  position: sticky; 
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: var(--mm-dark-bg); 
+  padding: 1rem 2rem; 
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 100; 
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3); 
+}
+
+.fixed-header h1 {
+  margin: 0; 
+  font-size: 1.5rem; 
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 1.5px;
+  text-align: left; 
+}
+
+.content-after-fixed-header {
+  padding-top: 2rem; 
+}
+
