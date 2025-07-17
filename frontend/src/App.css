@@ -3,34 +3,34 @@
 }
 
 .container {
-  max-width: 1100px;
+  max-width: 1000px;
   background-color: var(--mm-light-bg);
-  border-radius: 12px;
+  border-radius: 8px;
   border: 1px solid var(--mm-border);
-  padding-top: 2rem;
-  padding-bottom: 2rem;
-  padding-left: 1rem;
-  padding-right: 1rem;
-  margin: 2rem auto;
+  padding-top: 1.5rem;
+  padding-bottom: 1.5rem;
+  padding-left: 0.75rem;
+  padding-right: 0.75rem;
+  margin: 1.5rem auto;
 }
 
 main {
   display: flex;
-  flex-direction: column; 
-  gap: 2.5rem;
+  flex-direction: column;
+  gap: 2rem;
 }
 
 .form-section, .list-section {
-  padding: 1.5rem;
+  padding: 1.25rem;
   background-color: var(--mm-dark-bg);
   border: 1px solid var(--mm-border);
-  border-radius: 8px;
+  border-radius: 6px;
 }
 
 form {
   display: flex;
   flex-direction: column;
-  gap: 1rem;
+  gap: 0.75rem;
 }
 
 form h2 {
@@ -45,12 +45,12 @@ input[type="tel"],
 input[type="search"],
 input[type="password"] {
   width: 100%;
-  padding: 12px;
+  padding: 10px;
   border: 1px solid var(--mm-border);
   background-color: var(--mm-light-bg);
   color: var(--mm-text-primary);
-  border-radius: 4px;
-  font-size: 1rem;
+  border-radius: 3px;
+  font-size: 0.95rem;
   box-sizing: border-box;
   transition: all 0.2s ease-in-out;
 }
@@ -58,16 +58,16 @@ input[type="password"] {
 input:focus {
   outline: none;
   border-color: var(--mm-pink);
-  box-shadow: 0 0 0 3px rgba(217, 70, 239, 0.3);
+  box-shadow: 0 0 0 2px rgba(217, 70, 239, 0.2);
 }
 
 button {
-  padding: 12px 15px;
+  padding: 10px 12px;
   border: none;
-  border-radius: 4px;
+  border-radius: 3px;
   background: linear-gradient(90deg, var(--mm-purple) 0%, var(--mm-blue) 100%);
   color: white;
-  font-size: 1rem;
+  font-size: 0.95rem;
   font-weight: bold;
   cursor: pointer;
   transition: transform 0.2s, box-shadow 0.2s;
@@ -75,8 +75,8 @@ button {
 }
 
 button:hover {
-  transform: translateY(-2px);
-  box-shadow: 0 4px 15px rgba(79, 70, 229, 0.4);
+  transform: translateY(-1px);
+  box-shadow: 0 3px 10px rgba(79, 70, 229, 0.3);
 }
 
 form button[type="button"] {
@@ -92,7 +92,7 @@ form button[type="button"]:hover {
   background: linear-gradient(90deg, #ef4444 0%, #d946ef 100%);
 }
 .delete-btn:hover {
-  box-shadow: 0 4px 15px rgba(239, 68, 68, 0.4);
+  box-shadow: 0 3px 10px rgba(239, 68, 68, 0.3);
 }
 
 .contact-list {
@@ -104,8 +104,8 @@ form button[type="button"]:hover {
 .contact-item {
   display: flex;
   flex-direction: column;
-  gap: 10px;
-  padding: 15px;
+  gap: 8px;
+  padding: 12px;
   border-bottom: 1px solid var(--mm-border);
   transition: background-color 0.2s;
 }
@@ -116,29 +116,30 @@ form button[type="button"]:hover {
 .contact-info {
   display: flex;
   flex-direction: column;
-  gap: 5px;
+  gap: 4px;
   word-break: break-word;
 }
 
 .contact-info strong {
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   color: var(--mm-pink);
   font-weight: 700;
 }
 .contact-info span {
   color: var(--mm-text-secondary);
+  font-size: 0.9rem;
 }
 
 .contact-actions {
   display: flex;
-  gap: 10px;
+  gap: 8px;
   width: 100%;
 }
 
 .contact-actions button {
   flex-grow: 1;
-  font-size: 0.9rem;
-  padding: 10px;
+  font-size: 0.85rem;
+  padding: 8px;
 }
 
 .error {
@@ -146,28 +147,28 @@ form button[type="button"]:hover {
   text-align: center;
   font-weight: bold;
   background-color: rgba(239, 68, 68, 0.2);
-  padding: 1rem;
-  border-radius: 8px;
+  padding: 0.75rem;
+  border-radius: 6px;
 }
 
 @media (min-width: 768px) {
 
   .container{
-    padding-left: 2rem;
-    padding-right: 2rem;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
     width: auto;
   }
 
   main {
-    flex-direction: row; 
+    flex-direction: row;
     align-items: flex-start;
   }
 
   .form-section {
     flex: 1;
-    max-width: 400px;
+    max-width: 380px;
     position: sticky;
-    top: 2rem;
+    top: 1.5rem;
   }
 
   .list-section {
@@ -187,6 +188,12 @@ form button[type="button"]:hover {
   .contact-actions button {
     flex-grow: 0;
   }
+
+  .add-new-contact-btn {
+    max-width: 380px;
+    margin-left: 0;
+    margin-right: auto;
+  }
 }
 
 .auth-page-wrapper {
@@ -194,17 +201,17 @@ form button[type="button"]:hover {
   justify-content: center;
   align-items: center;
   min-height: 100vh;
-  padding: 1rem;
+  padding: 0.75rem;
   box-sizing: border-box;
 }
 
 .auth-container {
   width: 100%;
-  max-width: 420px;
-  padding: 2.5rem;
+  max-width: 380px;
+  padding: 2rem;
   background-color: var(--mm-light-bg);
   border: 1px solid var(--mm-border);
-  border-radius: 12px;
+  border-radius: 8px;
 }
 
 .auth-form h2 {
@@ -212,21 +219,21 @@ form button[type="button"]:hover {
   color: var(--mm-pink);
   font-weight: 700;
   margin-top: 0;
-  margin-bottom: 2rem;
+  margin-bottom: 1.5rem;
   border-bottom: none;
 }
 
 .auth-form {
   display: flex;
   flex-direction: column;
-  gap: 1.25rem;
+  gap: 1rem;
 }
 
 .switch-form {
   text-align: center;
   color: var(--mm-text-secondary);
-  margin-top: 1.5rem;
-  font-size: 0.9rem;
+  margin-top: 1rem;
+  font-size: 0.85rem;
 }
 
 .link-button {
@@ -251,8 +258,8 @@ form button[type="button"]:hover {
   color: #34d399;
   background-color: rgba(16, 185, 129, 0.1);
   border: 1px solid rgba(16, 185, 129, 0.3);
-  padding: 1rem;
-  border-radius: 8px;
+  padding: 0.75rem;
+  border-radius: 6px;
   text-align: center;
   font-weight: bold;
 }
@@ -260,18 +267,18 @@ form button[type="button"]:hover {
 .header-user-info {
   display: flex;
   align-items: center;
-  gap: 1rem;
+  gap: 0.75rem;
 }
 
 .logout-btn {
   background: var(--mm-pink);
-  padding: 8px 16px;
-  font-size: 0.9rem;
+  padding: 6px 12px;
+  font-size: 0.85rem;
 }
 
 .logout-btn:hover {
   background: #c026d3;
-  box-shadow: 0 2px 10px rgba(217, 70, 239, 0.3);
+  box-shadow: 0 2px 8px rgba(217, 70, 239, 0.3);
 }
 
 .modal-overlay {
@@ -280,28 +287,28 @@ form button[type="button"]:hover {
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.7);
+  background-color: rgba(0, 0, 0, 0.6);
   display: flex;
   justify-content: center;
   align-items: center;
   z-index: 1000;
-  backdrop-filter: blur(5px);
+  backdrop-filter: blur(3px);
 }
 
 .modal-content {
   background-color: var(--mm-light-bg);
-  padding: 2rem;
-  border-radius: 12px;
+  padding: 1.5rem;
+  border-radius: 8px;
   border: 1px solid var(--mm-border);
   width: 90%;
-  max-width: 500px;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+  max-width: 450px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
   animation: slide-down 0.3s ease-out;
 }
 
 @keyframes slide-down {
   from {
-    transform: translateY(-30px);
+    transform: translateY(-20px);
     opacity: 0;
   }
   to {
@@ -315,26 +322,35 @@ form button[type="button"]:hover {
   justify-content: space-between;
   align-items: center;
   border-bottom: 1px solid var(--mm-border);
-  padding-bottom: 1rem;
-  margin-bottom: 1rem;
+  padding-bottom: 0.75rem;
+  margin-bottom: 0.75rem;
 }
 
 .modal-header h2 {
   margin: 0;
   color: var(--mm-pink);
+  font-size: 1.25rem;
 }
 
 .close-button {
   background: none;
   border: none;
-  font-size: 2rem;
+  font-size: 1.8rem;
   color: var(--mm-text-secondary);
   cursor: pointer;
+  padding: 0 4px;
+  width: auto;
+}
+.close-button:hover {
+  color: var(--mm-pink);
+  transform: none;
+  box-shadow: none;
 }
 
 .modal-body {
-  margin-bottom: 1.5rem;
+  margin-bottom: 1rem;
   color: var(--mm-text-secondary);
+  font-size: 0.9rem;
 }
 
 .modal-body strong {
@@ -344,7 +360,7 @@ form button[type="button"]:hover {
 .modal-footer {
   display: flex;
   justify-content: flex-end;
-  gap: 1rem;
+  gap: 0.75rem;
 }
 
 .modal-footer .btn-secondary {
@@ -360,31 +376,31 @@ form button[type="button"]:hover {
   background: linear-gradient(90deg, #ef4444 0%, #d946ef 100%);
 }
 .modal-footer .btn-danger:hover {
-  box-shadow: 0 4px 15px rgba(239, 68, 68, 0.4);
+  box-shadow: 0 3px 10px rgba(239, 68, 68, 0.3);
 }
 
 .dynamic-field-group {
   display: flex;
   flex-direction: column;
-  gap: 0.5rem;
+  gap: 0.4rem;
 }
 .dynamic-field-group label {
   font-weight: bold;
   color: var(--mm-text-secondary);
-  font-size: 0.9rem;
-  margin-bottom: 0.25rem;
+  font-size: 0.85rem;
+  margin-bottom: 0.2rem;
 }
 .dynamic-field {
   display: flex;
-  gap: 0.5rem;
+  gap: 0.4rem;
   align-items: center;
 }
 .dynamic-field input {
   flex-grow: 1;
 }
 .add-btn, .remove-btn {
-  padding: 8px 12px;
-  font-size: 0.9rem;
+  padding: 6px 10px;
+  font-size: 0.85rem;
   text-transform: none;
   font-weight: normal;
 }
@@ -401,8 +417,8 @@ form button[type="button"]:hover {
 .remove-btn {
   background-color: #4b5563;
   padding: 0;
-  width: 30px;
-  height: 30px;
+  width: 26px;
+  height: 26px;
   font-size: 1.5rem;
   line-height: 1;
 }
@@ -416,13 +432,13 @@ form button[type="button"]:hover {
   margin-top: 5px;
 }
 .loader {
-  border: 4px solid #f3f3f3;
-  border-top: 4px solid #3498db;
+  border: 3px solid #f3f3f3;
+  border-top: 3px solid #3498db;
   border-radius: 50%;
-  width: 24px;
-  height: 24px;
+  width: 20px;
+  height: 20px;
   animation: spin 1s linear infinite;
-  margin: 10px auto;
+  margin: 8px auto;
 }
 
 @keyframes spin {
@@ -436,62 +452,78 @@ form button[type="button"]:hover {
   left: 0;
   width: 100%;
   background-color: var(--mm-dark-bg);
-  padding: 1rem 2rem;
+  padding: 0.75rem 1.5rem;
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
+  justify-content: center;
   align-items: center;
   z-index: 100;
-  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.3);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.fixed-header-top-row {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin-bottom: 0.4rem;
+}
+
+.fixed-header-bottom-row {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .fixed-header h1 {
   margin: 0;
-  font-size: 1.5rem;
+  font-size: 1.3rem;
   font-weight: 900;
   text-transform: uppercase;
-  letter-spacing: 1.5px;
-  text-align: left;
+  letter-spacing: 1.2px;
+  text-align: center;
 }
 
 .content-after-fixed-header {
-  padding-top: 2rem;
+  padding-top: 1.5rem;
 }
 
 .add-new-contact-btn {
   background: linear-gradient(90deg, var(--mm-pink) 0%, var(--mm-purple) 100%);
   color: white;
-  padding: 1rem 1.5rem;
-  font-size: 1.1rem;
-  margin-bottom: 2rem;
+  padding: 0.8rem 1.2rem;
+  font-size: 1rem;
+  margin-bottom: 1.5rem;
   display: block;
   width: 100%;
 }
 .add-new-contact-btn:hover {
-  box-shadow: 0 4px 15px rgba(217, 70, 239, 0.4);
+  box-shadow: 0 3px 10px rgba(217, 70, 239, 0.3);
 }
 
-.form-header { 
+.form-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  border-bottom: 2px solid var(--mm-purple); 
-  padding-bottom: 0.5rem;
-  margin-bottom: 1rem;
+  border-bottom: 2px solid var(--mm-purple);
+  padding-bottom: 0.4rem;
+  margin-bottom: 0.75rem;
 }
 
-.form-header h2 { 
-  margin: 0; 
-  border-bottom: none; 
-  padding-bottom: 0; 
+.form-header h2 {
+  margin: 0;
+  border-bottom: none;
+  padding-bottom: 0;
 }
 
 .close-form-btn {
   background: none;
   border: none;
-  font-size: 2rem;
+  font-size: 1.6rem;
   color: var(--mm-text-secondary);
   cursor: pointer;
-  padding: 0 5px;
+  padding: 0 4px;
   width: auto;
 }
 .close-form-btn:hover {
@@ -499,7 +531,6 @@ form button[type="button"]:hover {
   transform: none;
   box-shadow: none;
 }
-
 
 @media (min-width: 768px) {
   form h2 {

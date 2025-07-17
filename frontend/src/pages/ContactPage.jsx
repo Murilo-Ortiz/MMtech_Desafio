@@ -4,6 +4,7 @@ import { useAuth } from '../context/AuthContext';
 import ContactList from '../components/contactList.jsx';
 import ContactForm from '../components/contactForm.jsx';
 import ConfirmationModal from '../components/confirmationModel.jsx';
+import ContactDetailModal from '../components/ContactDetailModal.jsx';
 import { toast } from 'react-toastify';
 
 const formatPhoneNumber = (value) => {
@@ -29,8 +30,8 @@ function ContactsPage() {
   const [formData, setFormData] = useState(initialFormState);
   const [contactToDelete, setContactToDelete] = useState(null);
   const [validationErrors, setValidationErrors] = useState({});
-
-  const [isFormOpen, setIsFormOpen] = useState(false);
+  const [contactToViewDetails, setContactToViewDetails] = useState(null);
+  const [isFormOpen, setIsFormOpen] = useState(true);
 
 
   const fetchContacts = useCallback(async () => {
@@ -147,6 +148,10 @@ function ContactsPage() {
     });
   };
 
+  const handleShowDetails = (contact) => {
+    setContactToViewDetails(contact);
+  };
+
   return (
     <>
       <div className="container">
@@ -179,6 +184,7 @@ function ContactsPage() {
             onEditContact={handleEdit}
             onDeleteContact={handleDeleteRequest}
             loggedInUserId={user?.id}
+            onShowDetails={handleShowDetails}
           />
         </main>
       </div>
@@ -192,6 +198,12 @@ function ContactsPage() {
         <p>Tem a certeza de que deseja eliminar o contato de <strong>{contactToDelete?.nome}</strong>?</p>
         <p>Esta ação não pode ser desfeita.</p>
       </ConfirmationModal>
+
+      <ContactDetailModal
+        isOpen={!!contactToViewDetails}
+        onClose={() => setContactToViewDetails(null)}
+        contact={contactToViewDetails}
+      />
     </>
   );
 }

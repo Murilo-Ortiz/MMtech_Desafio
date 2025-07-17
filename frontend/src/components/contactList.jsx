@@ -9,7 +9,8 @@ function ContactList({
     onSearchChange, 
     onEditContact,
     onDeleteContact,
-    loggedInUserId 
+    loggedInUserId, 
+    onShowDetails
 }){
     return(
         <div className='list-section'>
@@ -35,6 +36,7 @@ function ContactList({
                                 onEdit={onEditContact}
                                 onDelete={onDeleteContact}
                                 loggedInUserId={loggedInUserId}
+                                onShowDetails={onShowDetails}
                             />
                         ))
                     ):(
