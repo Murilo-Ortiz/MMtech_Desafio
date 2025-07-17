@@ -1,11 +1,11 @@
 const express = require('express');
 const router = express.Router();
 const controller = require('./controller');
-const { protect } = require('./autMidlleware');
+const { protect } = require('./authMidlleware');
 
 
-router.get('/', protect, controller.getAllData);
-router.get('/:id', protect, controller.getbyId);
+router.get('/', controller.getAllData);
+router.get('/:id', controller.getbyId);
 router.post('/', protect, controller.createContato);
 router.put('/:id', protect, controller.updateContato);
 router.delete('/:id', protect, controller.deleteContato);
