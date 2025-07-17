@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import * as api from '../services/api';
 import { useAuth } from '../context/AuthContext';
-import ContactList from '../components/contactList.jsx';
-import ContactForm from '../components/contactForm.jsx';
+import ContactList from '../components/ContactList.jsx';
+import ContactForm from '../components/ContactForm.jsx';
+import { toast } from 'react-toastify';
 
 const formatPhoneNumber = (value) => {
   if (!value) return '';
@@ -16,8 +17,7 @@ const formatPhoneNumber = (value) => {
 };
 
 function ContactsPage() {
-  const { user, logout } = useAuth(); 
-
+  const { user, logout } = useAuth();
   const [contacts, setContacts] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState(null);
@@ -36,11 +36,13 @@ function ContactsPage() {
         setContacts([]);
       }
     } catch (err) {
-      setError('Falha ao carregar contatos. A sua sessão pode ter expirado.');
+      setError('Falha ao carregar contatos.');
+      toast.error('A sua sessão pode ter expirado. Faça login novamente.');
+      logout();
     } finally {
       setIsLoading(false);
     }
-  }, [searchTerm]);
+  }, [searchTerm, logout]);
 
   useEffect(() => {
     fetchContacts();
@@ -48,8 +50,13 @@ function ContactsPage() {
 
   const handleDelete = async (id) => {
     if (window.confirm('Tem a certeza de que deseja eliminar este contato?')) {
-      await api.deleteContact(id);
-      fetchContacts();
+      try {
+        await api.deleteContact(id);
+        toast.success('Contato eliminado com sucesso!');
+        fetchContacts();
+      } catch (error) {
+        toast.error('Erro ao eliminar o contato.');
+      }
     }
   };
 
@@ -66,13 +73,19 @@ function ContactsPage() {
   const handleFormSubmit = async (e) => {
     e.preventDefault();
     const dataToSend = { ...formData, telefone: formData.telefone.replace(/\D/g, '') };
-    if (editingContact) {
-      await api.updateContact(editingContact._id, dataToSend);
-    } else {
-      await api.createContact(dataToSend);
+    try {
+      if (editingContact) {
+        await api.updateContact(editingContact._id, dataToSend);
+        toast.success(`Contato de ${formData.nome} atualizado!`);
+      } else {
+        await api.createContact(dataToSend);
+        toast.success(`Contato ${formData.nome} adicionado!`);
+      }
+      handleCancelEdit();
+      fetchContacts();
+    } catch (error) {
+      toast.error('Falha ao guardar o contato.');
     }
-    handleCancelEdit();
-    fetchContacts();
   };
 
   const handleFormChange = (newFormData) => {

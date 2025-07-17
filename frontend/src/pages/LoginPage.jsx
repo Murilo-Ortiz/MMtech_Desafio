@@ -1,19 +1,18 @@
 import React, { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
+import { toast } from 'react-toastify';
 
 function LoginPage({ onSwitchToRegister }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [error, setError] = useState('');
   const { login } = useAuth();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    setError('');
     try {
       await login(email, password);
     } catch (err) {
-      setError('Falha no login. Verifique as suas credenciais ou se o seu e-mail foi verificado.');
+      toast.error('Falha no login. Verifique as suas credenciais.');
       console.error(err);
     }
   };
@@ -22,7 +21,6 @@ function LoginPage({ onSwitchToRegister }) {
     <div className="auth-container">
       <form onSubmit={handleSubmit} className="auth-form">
         <h2>Login</h2>
-        {error && <p className="error">{error}</p>}
         <input
           type="email"
           placeholder="Email"

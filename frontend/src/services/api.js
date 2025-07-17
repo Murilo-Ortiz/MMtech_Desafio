@@ -1,46 +1,42 @@
 import axios from 'axios';
 
-const api = axios.create({
+export const api = axios.create({
   baseURL: 'http://localhost:3001',
 });
 
-/**
- * @param {string} [searchterm='']
- * @returns {Promise}
- */
-export const getAllData = (searchterm='') => {
-  return api.get(`/data?search = ${searchterm}`);
+api.interceptors.request.use(
+  (config) => {
+    const token = localStorage.getItem('token');
+    if (token) {
+      config.headers['Authorization'] = `Bearer ${token}`;
+    }
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+);
+
+export const getContacts = (searchTerm = '') => {
+  return api.get(`/data?search=${searchTerm}`);
 };
 
-/**
- * @param {string} id
- * @returns {Promise} 
-**/
-export const getbyId =(id) =>{
-    return api.get(`/data/${id}`, id);
+export const login = (email, password) => {
+  return api.post('/auth/login', { email, password });
 };
 
-/**
- * @param {object} newData
- * @returns {Promise}
- */
-export const postNewContato = (newData) =>{
-    return api.post('/data', newData);
+export const register = (userData) => {
+  return api.post('/auth/register', userData);
 };
 
-/**
- * @param {string} id 
- * @returns {Promise}
- */
-export const deleteContato = (id) =>{
-    return api.delete(`/data/${id}`, id);
+export const createContact = (contactData) => {
+  return api.post('/data', contactData);
 };
 
-/**
- * @param {string} id
- * @param {object} updatedData
- * @returns {Promise}
- */
-export const updateContato = (id, updatedData) =>{
-    return api.put(`/data/${id}`, updatedData)
+export const updateContact = (id, updatedData) => {
+  return api.put(`/data/${id}`, updatedData);
+};
+
+export const deleteContact = (id) => {
+  return api.delete(`/data/${id}`);
 };
