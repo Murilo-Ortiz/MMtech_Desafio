@@ -20,6 +20,7 @@ function LoginPage({ onSwitchToRegister }) {
 
   return (
     <div className="auth-container">
+      <h1 className="auth-app-header">Agenda de Contatos MMTech</h1>
       <form onSubmit={handleSubmit} className="auth-form">
         <h2>Login</h2>
         <input

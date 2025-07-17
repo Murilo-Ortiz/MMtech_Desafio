@@ -227,6 +227,19 @@ form button[type="button"]:hover {
   border-radius: 8px;
 }
 
+
+.auth-app-header {
+  text-align: center;
+  color: var(--mm-text-primary);
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 1.2px; 
+  font-size: 1.3rem; 
+  margin-bottom: 2rem; 
+  margin-top: 0; 
+}
+
+
 .auth-form h2 {
   text-align: center;
   color: var(--mm-pink);
