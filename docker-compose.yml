@@ -1,0 +1,26 @@
+services:
+  backend:
+    build: ./backend
+    container_name: mmtech-backend
+    ports:
+      - "3001:3001"
+    volumes:
+      - ./backend:/app
+      - /app/node_modules
+    environment:
+      - JWT_SECRET=sua_chave_secreta_muito_forte_e_aleatoria_aqui_para_producao 
+    restart: unless-stopped
+
+  frontend:
+    build: ./frontend
+    container_name: mmtech-frontend
+    ports:
+      - "80:80"
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    environment:
+      - VITE_API_URL=http://backend:3001
+    depends_on:
+      - backend
+    restart: unless-stopped

@@ -5,7 +5,7 @@ import ContactList from '../components/contactList.jsx';
 import ContactForm from '../components/contactForm.jsx';
 import ConfirmationModal from '../components/confirmationModel.jsx';
 import { toast } from 'react-toastify';
-import ContactDetailModal from '../components/ContactDetailModal.jsx';
+import ContactDetailModal from '../components/contactDetailModal.jsx';
 
 export const formatPhoneNumber = (value) => {
   if (!value) return '';

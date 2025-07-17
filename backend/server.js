@@ -1,6 +1,8 @@
 const express = require('express');
 const cors = require('cors');
-require('dotenv').config();
+if (!process.env.JWT_SECRET) {
+  require('dotenv').config();
+}
 const app = express();
 const PORT = 3001;
 
