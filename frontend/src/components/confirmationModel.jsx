@@ -7,10 +7,10 @@ function ConfirmationModal({ isOpen, onClose, onConfirm, title, children }) {
 
   return (
     <div className="modal-overlay" onClick={onClose}>
-      <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+      <div className="modal-content" role="dialog" aria-modal="true" aria-labelledby="modal-title" onClick={(e) => e.stopPropagation()}>
         <div className="modal-header">
-          <h2>{title}</h2>
-          <button className="close-button" onClick={onClose}>&times;</button>
+          <h2 id="modal-title">{title}</h2>
+          <button className="close-button" onClick={onClose} aria-label="Fechar modal de confirmação">&times;</button>
         </div>
         <div className="modal-body">
           {children}

@@ -6,10 +6,10 @@ function ContactList({
     isLoading,
     error,
     searchTerm,
-    onSearchChange, 
+    onSearchChange,
     onEditContact,
     onDeleteContact,
-    loggedInUserId, 
+    loggedInUserId,
     onShowDetails
 }){
     return(
@@ -21,13 +21,14 @@ function ContactList({
                 className='search-input'
                 value={searchTerm}
                 onChange={onSearchChange}
+                aria-label="Buscar contatos por nome"
             />
 
             {isLoading && <p>Carregando...</p>}
             {error && <p className='error'>{error}</p>}
 
             {!isLoading&&!error&&(
-                <ul className='contact-list'>
+                <ul className='contact-list' role="list">
                     {contacts.length > 0?(
                         contacts.map(contact=>(
                             <ContactCard
@@ -42,7 +43,7 @@ function ContactList({
                     ):(
                         <p>Nenhum Contato encontrado.</p>
                     )}
-                </ul> 
+                </ul>
             )}
         </div>
     );

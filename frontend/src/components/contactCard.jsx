@@ -11,25 +11,25 @@ function ContactCard({ contact, onEdit, onDelete, onShowDetails, loggedInUserId 
   const hasMoreTelefones = contact.telefones && contact.telefones.length > 1;
 
   return (
-    <li className="contact-item">
+    <li className="contact-item" aria-labelledby={`contact-name-${contact._id}`}>
       <div className="contact-info">
-        <strong>{contact.nome}</strong>
+        <strong id={`contact-name-${contact._id}`}>{contact.nome}</strong>
         <div className="contact-details email-display">
-          <span>{firstEmail} {hasMoreEmails && `(+${contact.emails.length - 1})`}</span>
+          <span>{firstEmail} {hasMoreEmails && `(+${contact.emails.length - 1} mais)`}</span>
         </div>
         <div className="contact-details">
-          <span>{firstTelefone} {hasMoreTelefones && `(+${contact.telefones.length - 1})`}</span>
+          <span>{firstTelefone} {hasMoreTelefones && `(+${contact.telefones.length - 1} mais)`}</span>
         </div>
       </div>
       
       <div className="contact-actions">
         {isOwner && (
           <>
-            <button onClick={() => onEdit(contact)}>Editar</button>
-            <button className="delete-btn" onClick={() => onDelete(contact)}>Apagar</button>
+            <button onClick={() => onEdit(contact)} aria-label={`Editar contato de ${contact.nome}`}>Editar</button>
+            <button className="delete-btn" onClick={() => onDelete(contact)} aria-label={`Apagar contato de ${contact.nome}`}>Apagar</button>
           </>
         )}
-        <button onClick={() => onShowDetails(contact)} className="view-details-btn">Ver Detalhes</button>
+        <button onClick={() => onShowDetails(contact)} className="view-details-btn" aria-label={`Ver detalhes de ${contact.nome}`}>Ver Detalhes</button>
       </div>
     </li>
   );

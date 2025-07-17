@@ -17,7 +17,7 @@ function ContactForm({
       <form onSubmit={onSubmit} noValidate>
         <div className="form-header">
             <h2>{isEditing ? 'Editando Contato' : 'Adicionar Novo Contato'}</h2>
-            <button type="button" className="close-form-btn" onClick={onCloseForm}>&times;</button>
+            <button type="button" className="close-form-btn" onClick={onCloseForm} aria-label="Fechar formulário de contato">&times;</button>
         </div>
 
         <input
@@ -39,13 +39,14 @@ function ContactForm({
                 value={email}
                 onChange={(e) => onFieldChange('emails', index, e.target.value)}
                 required
+                aria-label={`E-mail ${index + 1}`}
               />
               {formData.emails.length > 1 && (
-                <button type="button" className="remove-btn" onClick={() => onRemoveField('emails', index)}>&ndash;</button>
+                <button type="button" className="remove-btn" onClick={() => onRemoveField('emails', index)} aria-label={`Remover e-mail ${index + 1}`}>&ndash;</button>
               )}
             </div>
           ))}
-          <button type="button" className="add-btn" onClick={() => onAddField('emails')}>+ Adicionar E-mail</button>
+          <button type="button" className="add-btn" onClick={() => onAddField('emails')} aria-label="Adicionar novo campo de e-mail">+ Adicionar E-mail</button>
         </div>
 
         <div className="dynamic-field-group">
@@ -59,13 +60,14 @@ function ContactForm({
                 onChange={(e) => onFieldChange('telefones', index, e.target.value)}
                 maxLength="15"
                 required
+                aria-label={`Telefone ${index + 1}`}
               />
               {formData.telefones.length > 1 && (
-                <button type="button" className="remove-btn" onClick={() => onRemoveField('telefones', index)}>&ndash;</button>
+                <button type="button" className="remove-btn" onClick={() => onRemoveField('telefones', index)} aria-label={`Remover telefone ${index + 1}`}>&ndash;</button>
               )}
             </div>
           ))}
-          <button type="button" className="add-btn" onClick={() => onAddField('telefones')}>+ Adicionar Telefone</button>
+          <button type="button" className="add-btn" onClick={() => onAddField('telefones')} aria-label="Adicionar novo campo de telefone">+ Adicionar Telefone</button>
         </div>
 
         <button type="submit">{isEditing ? 'Salvar Alterações' : 'Adicionar Contato'}</button>

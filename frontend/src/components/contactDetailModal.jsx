@@ -7,10 +7,10 @@ function ContactDetailModal({ isOpen, onClose, contact }) {
 
   return (
     <div className="modal-overlay" onClick={onClose}>
-      <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+      <div className="modal-content" role="dialog" aria-modal="true" aria-labelledby="contact-detail-title" onClick={(e) => e.stopPropagation()}>
         <div className="modal-header">
-          <h2>Detalhes do Contato</h2>
-          <button className="close-button" onClick={onClose}>&times;</button>
+          <h2 id="contact-detail-title">Detalhes do Contato</h2>
+          <button className="close-button" onClick={onClose} aria-label="Fechar detalhes do contato">&times;</button>
         </div>
         <div className="modal-body">
           <p><strong>Nome:</strong> {contact.nome}</p>
