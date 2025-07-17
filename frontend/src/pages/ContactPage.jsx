@@ -88,8 +88,8 @@ function ContactsPage() {
     e.preventDefault();
     const dataToSend = {
       nome: formData.nome,
-      emails: formData.emails.filter(e => e), 
-      telefones: formData.telefones.map(t => t.replace(/\D/g, '')).filter(t => t),
+      emails: (formData.emails || []).filter(e => e), 
+      telefones: (formData.telefones || []).map(t => t.replace(/\D/g, '')).filter(t => t),
     };
 
     try {
@@ -109,13 +109,15 @@ function ContactsPage() {
   };
 
   const handleAddField = (field) => {
-    setFormData(prev => ({ ...prev, [field]: [...prev[field], ''] }));
+    setFormData(prev => ({
+       ...prev,
+        [field]: [...(prev[field] || []), ''] }));
   };
 
   const handleRemoveField = (field, index) => {
     setFormData(prev => ({
       ...prev,
-      [field]: prev[field].filter((_, i) => i !== index),
+      [field]: (prev[field]||[]).filter((_, i) => i !== index),
     }));
   };
 
@@ -125,7 +127,7 @@ function ContactsPage() {
         return { ...prev, [field]: value };
       }
       
-      const updatedArray = [...prev[field]];
+      const updatedArray = [...(prev[field] || [])];
       updatedArray[index] = field === 'telefones' ? formatPhoneNumber(value) : value;
       return { ...prev, [field]: updatedArray };
     });
