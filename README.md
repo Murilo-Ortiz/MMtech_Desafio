@@ -3,7 +3,6 @@
 Este projeto é uma solução Full-Stack para o desafio técnico da MMTech, implementando um sistema de gerenciamento de contatos. A arquitetura consiste em um frontend desacoplado em React e uma API RESTful em Node.js com Express, utilizando autenticação via JWT. O ambiente é totalmente containerizado com Docker e orquestrado via Docker Compose para garantir consistência e portabilidade.
 
 
-
 ---
 
 ## Funcionalidades
@@ -131,9 +130,11 @@ Modal de Detalhes
 <img width="1359" height="636" alt="image" src="https://github.com/user-attachments/assets/48b98b74-0bf0-4409-bd9f-bd31b0d992a5" />
 Tela de Registro
 <img width="1364" height="638" alt="image" src="https://github.com/user-attachments/assets/bc1a327e-6a53-4e0e-b632-b8cda824ce91" />
+Verificação de email via ethereal
+<img width="1332" height="527" alt="image" src="https://github.com/user-attachments/assets/7eac8e1c-b1fd-418d-be9b-78cd3e36acaf" />
+Responsividade da tela
 
-
----
+<img width="350" height="500" alt="image" src="https://github.com/user-attachments/assets/9ea24643-c27c-4199-8783-947aef620920" /><img width="350" height="500" alt="image" src="https://github.com/user-attachments/assets/c03cf9c4-fce9-4a4d-847a-96f41e705f82" /><img width="350" height="500" alt="image" src="https://github.com/user-attachments/assets/453eeebf-11e0-4d5f-8d92-24ce6dc07469" /><img width="417" height="584" alt="image" src="https://github.com/user-attachments/assets/dd794f36-cb1c-4d07-a8a7-8c566e600bba" />
 
 ---
 ## 👨‍💻 Desenvolvido por
