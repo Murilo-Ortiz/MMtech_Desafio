@@ -2,6 +2,8 @@
 
 Este projeto é uma solução Full-Stack para o desafio técnico da MMTech, implementando um sistema de gerenciamento de contatos. A arquitetura consiste em um frontend desacoplado em React e uma API RESTful em Node.js com Express, utilizando autenticação via JWT. O ambiente é totalmente containerizado com Docker e orquestrado via Docker Compose para garantir consistência e portabilidade.
 
+
+
 ---
 
 ## Funcionalidades
@@ -118,5 +120,39 @@ Este projeto é uma solução Full-Stack para o desafio técnico da MMTech, impl
 ## Melhorias Futuras
 * Adicionar um campo de busca para filtrar contatos por nome ou e-mail.
 * Substituir o Ethereal por um serviço de e-mail transacional (como SendGrid ou Mailgun) para a funcionalidade de verificação de e-mail em um ambiente real.
+
+### 📸 Galeria
+
+Login
+<img width="1366" height="635" alt="image" src="https://github.com/user-attachments/assets/ea5b292f-4c0b-490a-a4a1-5e328c6f6a6c" /> 
+Pagina de Contatos
+<img width="1366" height="639" alt="image" src="https://github.com/user-attachments/assets/7a60d577-3c15-4036-8ff3-b4f61d681170" /> 
+Modal de Detalhes
+<img width="1359" height="636" alt="image" src="https://github.com/user-attachments/assets/48b98b74-0bf0-4409-bd9f-bd31b0d992a5" />
+Tela de Registro
+<img width="1364" height="638" alt="image" src="https://github.com/user-attachments/assets/bc1a327e-6a53-4e0e-b632-b8cda824ce91" />
+
+
+---
+
+---
+## 👨‍💻 Desenvolvido por
+
+<table>
+  <tr>
+    <td align="center">
+      <a href="https://github.com/Murilo-Ortiz">
+        <img src="https://avatars.githubusercontent.com/Murilo-Ortiz" width="100px;" alt="Foto do Murilo Ortiz"/><br>
+        <sub>
+          <b>Murilo Ortiz</b>
+        </sub>
+      </a>
+    </td>
+  </tr>
+</table>
+
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-0077B5?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/SEU_LINKEDIN/)
+[![GitHub](https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/Murilo-Ortiz)
+[![Email](https://img.shields.io/badge/Email-D14836?style=for-the-badge&logo=gmail&logoColor=white)](mailto:seu.email@exemplo.com)
 
 ---
