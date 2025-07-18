@@ -11,7 +11,6 @@ html, body, #root {
 
 *, *::before, *::after {
   box-sizing: border-box;
-  overflow-wrap: break-word; 
 }
 
 /* Layout Principal */
@@ -24,7 +23,6 @@ html, body, #root {
 }
 
 .container {
-  width: 100%;
   max-width: 1000px;
   background-color: var(--mm-light-bg);
   border-radius: 8px;
@@ -34,15 +32,13 @@ html, body, #root {
   padding-left: 0.75rem;
   padding-right: 0.75rem;
   margin: 1.5rem auto;
-  display: flex;
-  flex-direction: column;
+  /* CORREÇÃO: Removido flex para o mobile se expandir naturalmente */
 }
 
 main {
   display: flex;
   flex-direction: column; 
   gap: 2rem;
-  min-width: 0; 
 }
 
 .form-section{
@@ -50,7 +46,6 @@ main {
   background-color: var(--mm-dark-bg);
   border: 1px solid var(--mm-border);
   border-radius: 6px;
-  min-width: 0;
 }
 
 .list-section {
@@ -58,7 +53,7 @@ main {
   background-color: var(--mm-dark-bg);
   border: 1px solid var(--mm-border);
   border-radius: 6px;
-  min-width: 0;
+  /* CORREÇÃO: Adicionado para ajudar no layout de scroll do desktop */
   display: flex;
   flex-direction: column;
 }
@@ -138,6 +133,7 @@ form button[type="button"]:hover {
   list-style: none;
   padding: 0;
   margin: 0;
+  /* CORREÇÃO: Removido max-height para o mobile se expandir */
 }
 
 .contact-item {
@@ -558,13 +554,14 @@ form button[type="button"]:hover {
   .container{
     padding-left: 1.5rem;
     padding-right: 1.5rem;
+    display: flex;
+    flex-direction: column;
     flex-grow: 1;
     min-height: 0;
   }
 
   main {
     flex-direction: row; 
-    /* CORREÇÃO: Alinhamento stretch para que os filhos ocupem a altura total */
     align-items: stretch;
     flex-grow: 1;
     min-height: 0;
@@ -581,7 +578,6 @@ form button[type="button"]:hover {
 
   .list-section {
     flex: 2;
-    /* CORREÇÃO: Removido max-height para permitir que o flexbox controle a altura */
   }
   
   .contact-list {
@@ -609,10 +605,9 @@ form button[type="button"]:hover {
   }
 
   .add-new-contact-btn {
-    flex: 1; 
-    max-width: 380px; 
-    margin-left: 0; 
-    margin-right: auto; 
+    width: 100%;
+    max-width: 380px;
+    align-self: flex-start;
   }
 
   form h2 {
