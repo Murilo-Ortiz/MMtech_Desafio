@@ -1,3 +1,4 @@
+/* Estilos Globais e Reset */
 html, body, #root {
   height: 100%;
   margin: 0;
@@ -10,8 +11,10 @@ html, body, #root {
 
 *, *::before, *::after {
   box-sizing: border-box;
+  overflow-wrap: break-word; 
 }
 
+/* Layout Principal */
 .content-after-fixed-header {
   flex-grow: 1; 
   display: flex;
@@ -20,8 +23,8 @@ html, body, #root {
   padding-top: 1.5rem; 
 }
 
-
 .container {
+  width: 100%;
   max-width: 1000px;
   background-color: var(--mm-light-bg);
   border-radius: 8px;
@@ -31,18 +34,15 @@ html, body, #root {
   padding-left: 0.75rem;
   padding-right: 0.75rem;
   margin: 1.5rem auto;
-  flex-grow: 1; 
   display: flex;
   flex-direction: column;
-  min-height: 0; 
 }
 
 main {
   display: flex;
   flex-direction: column; 
   gap: 2rem;
-  flex-grow: 1; 
-  min-height: 0; 
+  min-width: 0; 
 }
 
 .form-section{
@@ -50,8 +50,7 @@ main {
   background-color: var(--mm-dark-bg);
   border: 1px solid var(--mm-border);
   border-radius: 6px;
-  max-height: 100%; 
-  overflow-y: auto; 
+  min-width: 0;
 }
 
 .list-section {
@@ -59,9 +58,12 @@ main {
   background-color: var(--mm-dark-bg);
   border: 1px solid var(--mm-border);
   border-radius: 6px;
-  max-height: 100%;  
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
 }
 
+/* Formulários e Inputs */
 form {
   display: flex;
   flex-direction: column;
@@ -96,6 +98,7 @@ input:focus {
   box-shadow: 0 0 0 2px rgba(217, 70, 239, 0.2);
 }
 
+/* Botões */
 button {
   padding: 10px 12px;
   border: none;
@@ -130,12 +133,11 @@ form button[type="button"]:hover {
   box-shadow: 0 3px 10px rgba(239, 68, 68, 0.3);
 }
 
+/* Lista de Contatos */
 .contact-list {
   list-style: none;
   padding: 0;
   margin: 0;
-  max-height: 400px; 
-  overflow-y: auto; 
 }
 
 .contact-item {
@@ -164,7 +166,6 @@ form button[type="button"]:hover {
   display: inline;
 }
 
-
 .contact-info strong {
   font-size: 1.1rem;
   color: var(--mm-pink);
@@ -188,6 +189,7 @@ form button[type="button"]:hover {
   padding: 8px;
 }
 
+/* Feedback para o Usuário */
 .error {
   color: #fca5a5;
   text-align: center;
@@ -197,65 +199,89 @@ form button[type="button"]:hover {
   border-radius: 6px;
 }
 
-@media (min-width: 768px) {
-  .container{
-    padding-left: 1.5rem;
-    padding-right: 1.5rem;
-    width: auto;
-  }
-
-  main {
-    flex-direction: row; 
-    align-items: flex-start;
-  }
-
-  .form-section {
-    flex: 1;
-    max-width: 380px;
-    position: sticky;
-    top: 1.5rem;
-    max-height: 100%; 
-    overflow-y: auto; 
-  }
-
-  .list-section {
-    flex: 2;
-    max-height: 100%; 
-    overflow-y: auto; 
-  }
-
-  .contact-item {
-    flex-direction: row;
-    justify-content: space-between;
-    align-items: flex-start;
-    gap: 16px;
-  }
-
-  .contact-actions {
-    flex-direction: row;
-    width: auto;
-    flex-shrink: 0;
-    align-items: flex-start;
-  }
-
-  .contact-actions button {
-    flex-grow: 0;
-  }
-
-  .add-new-contact-btn {
-    flex: 1; 
-    max-width: 380px; 
-    margin-left: 0; 
-    margin-right: auto; 
-  }
-
-  form h2 {
-    border-bottom: 2px solid var(--mm-purple);
-    padding-bottom: 0.5rem;
-    margin-top: 0;
-  }
+.success {
+  color: #34d399;
+  background-color: rgba(16, 185, 129, 0.1);
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  padding: 0.75rem;
+  border-radius: 6px;
+  text-align: center;
+  font-weight: bold;
 }
 
+.loader {
+  border: 3px solid #f3f3f3;
+  border-top: 3px solid #3498db;
+  border-radius: 50%;
+  width: 20px;
+  height: 20px;
+  animation: spin 1s linear infinite;
+  margin: 8px auto;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* Header Fixo */
+.fixed-header {
+  position: sticky;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: var(--mm-dark-bg);
+  padding: 0.75rem 1.5rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  z-index: 100;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.fixed-header-top-row {
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  margin-bottom: 0.4rem;
+}
+
+.fixed-header-bottom-row {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.fixed-header h1 {
+  margin: 0;
+  font-size: 1.3rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+  text-align: center;
+}
+
+.header-user-info {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.logout-btn {
+  background: var(--mm-pink);
+  padding: 6px 12px;
+  font-size: 0.85rem;
+}
+
+.logout-btn:hover {
+  background: #c026d3;
+  box-shadow: 0 2px 8px rgba(217, 70, 239, 0.3);
+}
+
+/* Páginas de Autenticação (Login/Registro) */
 .auth-page-wrapper {
   display: flex;
   justify-content: center;
@@ -284,7 +310,6 @@ form button[type="button"]:hover {
   margin-bottom: 2rem;
   margin-top: 0;
 }
-
 
 .auth-form h2 {
   text-align: center;
@@ -326,33 +351,7 @@ form button[type="button"]:hover {
   box-shadow: none;
 }
 
-.success {
-  color: #34d399;
-  background-color: rgba(16, 185, 129, 0.1);
-  border: 1px solid rgba(16, 185, 129, 0.3);
-  padding: 0.75rem;
-  border-radius: 6px;
-  text-align: center;
-  font-weight: bold;
-}
-
-.header-user-info {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-}
-
-.logout-btn {
-  background: var(--mm-pink);
-  padding: 6px 12px;
-  font-size: 0.85rem;
-}
-
-.logout-btn:hover {
-  background: #c026d3;
-  box-shadow: 0 2px 8px rgba(217, 70, 239, 0.3);
-}
-
+/* Modal */
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -453,6 +452,7 @@ form button[type="button"]:hover {
   box-shadow: 0 3px 10px rgba(239, 68, 68, 0.3);
 }
 
+/* Campos Dinâmicos (Telefone/Email) */
 .dynamic-field-group {
   display: flex;
   flex-direction: column;
@@ -505,64 +505,8 @@ form button[type="button"]:hover {
   gap: 2px;
   margin-top: 5px;
 }
-.loader {
-  border: 3px solid #f3f3f3;
-  border-top: 3px solid #3498db;
-  border-radius: 50%;
-  width: 20px;
-  height: 20px;
-  animation: spin 1s linear infinite;
-  margin: 8px auto;
-}
 
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
-}
-
-.fixed-header {
-  position: sticky;
-  top: 0;
-  left: 0;
-  width: 100%;
-  background-color: var(--mm-dark-bg);
-  padding: 0.75rem 1.5rem;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  z-index: 100;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-}
-
-.fixed-header-top-row {
-  width: 100%;
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  margin-bottom: 0.4rem;
-}
-
-.fixed-header-bottom-row {
-  width: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.fixed-header h1 {
-  margin: 0;
-  font-size: 1.3rem;
-  font-weight: 900;
-  text-transform: uppercase;
-  letter-spacing: 1.2px;
-  text-align: center;
-}
-
-.content-after-fixed-header {
-  padding-top: 1.5rem;
-}
-
+/* Botão "Adicionar Contato" e Header do Formulário */
 .add-new-contact-btn {
   background: linear-gradient(90deg, var(--mm-pink) 0%, var(--mm-purple) 100%);
   color: white;
@@ -606,7 +550,71 @@ form button[type="button"]:hover {
   box-shadow: none;
 }
 
+
+/* ---------------------------------- */
+/* Estilos para Desktop (Responsivo)  */
+/* ---------------------------------- */
 @media (min-width: 768px) {
+  .container{
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+    flex-grow: 1;
+    min-height: 0;
+  }
+
+  main {
+    flex-direction: row; 
+    /* CORREÇÃO: Alinhamento stretch para que os filhos ocupem a altura total */
+    align-items: stretch;
+    flex-grow: 1;
+    min-height: 0;
+  }
+
+  .form-section {
+    flex: 1;
+    max-width: 380px;
+    position: sticky;
+    top: 1.5rem;
+    max-height: calc(100vh - 4.5rem); 
+    overflow-y: auto;                 
+  }
+
+  .list-section {
+    flex: 2;
+    /* CORREÇÃO: Removido max-height para permitir que o flexbox controle a altura */
+  }
+  
+  .contact-list {
+    overflow-y: auto;
+    flex-grow: 1;
+    min-height: 0;
+  }
+
+  .contact-item {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 16px;
+  }
+
+  .contact-actions {
+    flex-direction: row;
+    width: auto;
+    flex-shrink: 0;
+    align-items: flex-start;
+  }
+
+  .contact-actions button {
+    flex-grow: 0;
+  }
+
+  .add-new-contact-btn {
+    flex: 1; 
+    max-width: 380px; 
+    margin-left: 0; 
+    margin-right: auto; 
+  }
+
   form h2 {
     border-bottom: 2px solid var(--mm-purple);
     padding-bottom: 0.5rem;
